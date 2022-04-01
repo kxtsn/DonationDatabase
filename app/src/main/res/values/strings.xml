@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">LabExercise4</string>
+    <string name="hello_blank_fragment" />
+    <string name="country">Country</string>
+    <string name="street">Street</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="edit">Edit</string>
+    <string name="save_donator">Save Donator</string>
+    <string name="delete">Delete</string>
+    <string name="donate">Donate</string>
+    <string name="deleteContact">Delete Contact</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="directTitle">Direct</string>
+    <string name="payPalTitle">PayPal</string>
+    <string name="giveTitle">Select One</string>
+    <string name="donateTitle">Donation Page</string>
+</resources>
