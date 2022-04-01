@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.nfc.Tag;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
@@ -236,11 +237,12 @@ public class DBHelper extends SQLiteOpenHelper {
         int result = 0;
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor =  db.rawQuery( "select SUM( " + (DBHelper.DONATIONS_COLUMN_AMOUNT_DONATED) +") as Total from " + (DBHelper.DONATIONS_TABLE_NAME) + " Where " + (DBHelper.DONATIONS_COLUMN_ID) + " = " + id + ";", null);
+        Cursor cursor =  db.rawQuery( "select SUM( " + (DBHelper.DONATIONS_COLUMN_AMOUNT_DONATED) +") as Total from " + (DBHelper.DONATIONS_TABLE_NAME) + " Where " + (DBHelper.DONATIONS_COLUMN_CONTACT_ID) + " = " + id + ";", null);
         if (cursor.moveToFirst())
             result = cursor.getInt(cursor.getColumnIndex("Total"));
         cursor.close();
         db.close();
+
         return result;
     }
 
