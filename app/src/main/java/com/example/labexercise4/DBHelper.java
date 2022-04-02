@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -202,6 +203,25 @@ public class DBHelper extends SQLiteOpenHelper {
             }
 
         }
+        return array_list;
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<Pair<Integer, String>> getDonatedAmountByid(int id){
+        ArrayList<Pair<Integer, String>> array_list = new ArrayList<Pair<Integer, String>>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from "+ DONATIONS_TABLE_NAME +" where " + DONATIONS_COLUMN_CONTACT_ID + "="+id+"", null );
+
+        if (res.getCount() > 0) {
+            res.moveToFirst();
+
+            while (res.isAfterLast() == false) {
+                array_list.add(new Pair(res.getInt(res.getColumnIndex(DONATIONS_COLUMN_ID)), res.getString(res.getColumnIndex(DONATIONS_COLUMN_AMOUNT_DONATED))));
+                res.moveToNext();
+            }
+        }
+
         return array_list;
     }
 

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,11 @@ public  class ContactDetailsFragment extends android.app.Fragment {
     Button mSaveButton;
     Button mDeleteButton;
     Button mDonateButton;
+
+    ArrayList mArrayList;
+    private ListView obj;
+    boolean mDualPane;
+
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -86,6 +92,9 @@ public  class ContactDetailsFragment extends android.app.Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
+
+        // initialise the DB
+        refresh();
 
         if (mLayoutView == null)
             return;
@@ -324,6 +333,49 @@ public  class ContactDetailsFragment extends android.app.Fragment {
             contactListFragment.refresh();
         }
 
+
+    }
+
+    @Override
+    public void onResume() {
+        // Log.e("DEBUG", "onResume of LoginFragment");
+        super.onResume();
+
+        refresh();
+    }
+
+    public void refresh(){
+
+        if (mydb == null)
+            mydb = new DBHelper(getActivity());
+
+        // Get all the contacts from the database
+        int id = getShownIndex();
+        Log.d("ContactDetailsFragment", "ID: " + id);
+        mArrayList = mydb.getDonatedAmountByid(id);
+        //mTextView.setText("Hi");
+
+        ArrayList<String> array_list = new  ArrayList<String>();
+
+        Log.d("ContactDetailsFragment", "arrayList Size: " + mArrayList.size());
+
+        for (int i=0; i<mArrayList.size(); i++){
+            Pair<Integer, String> p = (Pair<Integer, String>)mArrayList.get(i);
+            Log.d("ContactDetailsFragment", "p.second: " + p.second);
+            array_list.add(p.second + " dollars");
+        }
+        // Put all the contacts in an array
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, array_list);
+
+        // Display the contacts in the ListView object
+        obj = (ListView)mLayoutView.findViewById(R.id.listView2);
+        obj.setAdapter(arrayAdapter);
+
+        // Check the orientation of the display
+        //mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+
+        View detailsFrame = getActivity().findViewById(R.id.contactdetails_fragment_container);
+        mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
     }
 
